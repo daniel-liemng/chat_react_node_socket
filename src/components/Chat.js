@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
-import { Box, Container, TextField } from "@material-ui/core";
+import { Box, Container, Grid, TextField } from "@material-ui/core";
+import Input from "./Input";
+import Room from "./Room";
+import ShowMessages from "./ShowMessages";
+import People from "./People";
 
 let socket;
 
@@ -13,6 +17,7 @@ const Chat = ({ location }) => {
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [users, setUsers] = useState([]);
 
   // 1st: handle JOIN
   useEffect(() => {
@@ -47,6 +52,13 @@ const Chat = ({ location }) => {
     });
   }, [messages]);
 
+  // User join -> user List
+  useEffect(() => {
+    socket.on("roomData", (roomData) => {
+      setUsers(roomData.users);
+    });
+  }, [name, room]);
+
   // Function to send message from frontend
   const sendMessage = (e) => {
     e.preventDefault();
@@ -58,18 +70,20 @@ const Chat = ({ location }) => {
   };
 
   console.log(message, messages);
+  console.log("USERS", users);
 
   return (
-    <Box>
-      <Container>
-        <TextField
-          variant='standard'
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyPress={(e) => (e.key === "Enter" ? sendMessage(e) : null)}
-        />
-      </Container>
-    </Box>
+    <Grid container>
+      <Grid item sm={12} md={4}>
+        <Room {...{ room }} />
+        <People {...{ users }} />
+      </Grid>
+      <Grid item sm={12} md={4}>
+        {/* name: to define who send/receive message */}
+        <ShowMessages {...{ messages, name }} />
+        <Input {...{ message, setMessage, sendMessage }} />
+      </Grid>
+    </Grid>
   );
 };
 
