@@ -38,7 +38,8 @@ let socket;
 const Chat = ({ location }) => {
   const classes = useStyles();
 
-  const ENDPOINT = "http://localhost:5000";
+  // const ENDPOINT = "http://localhost:5000";
+  const ENDPOINT = "https://chat-socketio-api.herokuapp.com/";
 
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
