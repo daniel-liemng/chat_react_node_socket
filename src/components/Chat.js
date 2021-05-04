@@ -1,15 +1,43 @@
 import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
-import { Box, Container, Grid, TextField } from "@material-ui/core";
+import { Box, Grid, Paper, makeStyles } from "@material-ui/core";
 import Input from "./Input";
 import Room from "./Room";
 import ShowMessages from "./ShowMessages";
 import People from "./People";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.secondary.main} 90%)`,
+    width: "100%",
+    height: "100vh",
+  },
+  paper: {
+    width: "60%",
+    height: "80vh",
+  },
+  messageContainer: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    position: "relative",
+  },
+  input: {
+    position: "absolute",
+    bottom: "0",
+    right: "2rem",
+  },
+}));
+
 let socket;
 
 const Chat = ({ location }) => {
+  const classes = useStyles();
+
   const ENDPOINT = "http://localhost:5000";
 
   const [name, setName] = useState("");
@@ -69,21 +97,29 @@ const Chat = ({ location }) => {
     }
   };
 
-  console.log(message, messages);
-  console.log("USERS", users);
-
   return (
-    <Grid container>
-      <Grid item sm={12} md={4}>
-        <Room {...{ room }} />
-        <People {...{ users }} />
-      </Grid>
-      <Grid item sm={12} md={4}>
-        {/* name: to define who send/receive message */}
-        <ShowMessages {...{ messages, name }} />
-        <Input {...{ message, setMessage, sendMessage }} />
-      </Grid>
-    </Grid>
+    <Box className={classes.root}>
+      <Paper className={classes.paper}>
+        <Grid container spacing={4} style={{ height: "100%" }}>
+          <Grid item sm={12} md={4}>
+            <Paper elevation={0}>
+              <Room {...{ room }} />
+              <People {...{ users }} />
+            </Paper>
+          </Grid>
+          <Grid item sm={12} md={8} style={{ height: "100%" }}>
+            <Box className={classes.messageContainer}>
+              {/* name: to define who send/receive message */}
+              <ShowMessages {...{ messages, name }} />
+              <Input
+                {...{ message, setMessage, sendMessage }}
+                className={classes.input}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+      </Paper>
+    </Box>
   );
 };
 

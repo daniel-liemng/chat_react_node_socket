@@ -1,20 +1,35 @@
 import React from "react";
 
+import { List, ListItem, makeStyles, Typography } from "@material-ui/core";
+
 import { firstUppercaseText } from "../utils";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
+import { theme } from "../theme";
+
+const useStyles = makeStyles({
+  title: {
+    padding: theme.spacing(2),
+  },
+  icon: {
+    color: "#25a18e",
+    marginRight: "0.7rem",
+  },
+});
 
 const People = ({ users }) => {
-  console.log("444", users);
-
-  // const joinedUsers = users.map((user) => user.name);
-
-  // console.log("JOIN", joinedUsers);
-
+  const classes = useStyles();
   return (
-    <ul>
+    <List>
+      <Typography className={classes.title} variant='h6'>
+        People in room
+      </Typography>
       {users.map((user, index) => (
-        <li key={index}>{firstUppercaseText(user.name)}</li>
+        <ListItem key={index}>
+          <CheckCircleOutlineIcon fontSize='default' className={classes.icon} />{" "}
+          <Typography>{firstUppercaseText(user.name)}</Typography>
+        </ListItem>
       ))}
-    </ul>
+    </List>
   );
 };
 

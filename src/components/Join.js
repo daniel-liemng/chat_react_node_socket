@@ -4,23 +4,26 @@ import { Link } from "react-router-dom";
 import {
   makeStyles,
   Card,
-  Container,
   CardHeader,
   CardContent,
   TextField,
   Button,
+  Box,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  wrapper: {
+  root: {
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
+    background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.secondary.main} 90%)`,
+    width: "100%",
+    height: "100vh",
   },
   card: {
-    minWidth: "600px",
+    minWidth: "450px",
+    height: "300px",
     marginTop: theme.spacing(8),
-    backgroundColor: "lightBlue",
+    backgroundColor: "white",
   },
   cardTitle: {
     textAlign: "center",
@@ -33,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   textInput: {
     marginBottom: theme.spacing(3),
+    width: "70%",
   },
 }));
 
@@ -43,12 +47,13 @@ const Join = () => {
   const [room, setRoom] = useState("");
 
   return (
-    <Container className={classes.wrapper}>
+    <Box className={classes.root}>
       <Card className={classes.card}>
-        <CardHeader className={classes.cardTitle} title="Let's chat !?!?" />
+        <CardHeader className={classes.cardTitle} title="Let's Chat" />
         <CardContent className={classes.cardContent}>
           <TextField
             variant='outlined'
+            size='small'
             label='Name'
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -56,6 +61,7 @@ const Join = () => {
           />
           <TextField
             variant='outlined'
+            size='small'
             label='Room'
             value={room}
             onChange={(e) => setRoom(e.target.value)}
@@ -72,7 +78,7 @@ const Join = () => {
           </Link>
         </CardContent>
       </Card>
-    </Container>
+    </Box>
   );
 };
 

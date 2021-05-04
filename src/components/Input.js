@@ -1,11 +1,12 @@
 import { Button, TextField } from "@material-ui/core";
 import React from "react";
 
-const Input = ({ message, setMessage, sendMessage }) => {
+const Input = ({ message, setMessage, sendMessage, ...other }) => {
   return (
-    <form>
+    <form {...other}>
       <TextField
-        variant='standard'
+        variant='outlined'
+        size='small'
         placeholder='Type a message...'
         value={message}
         onChange={(e) => setMessage(e.target.value)}
@@ -15,6 +16,7 @@ const Input = ({ message, setMessage, sendMessage }) => {
         variant='contained'
         color='secondary'
         onClick={(e) => sendMessage(e)}
+        size='large'
       >
         Send
       </Button>
